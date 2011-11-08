@@ -68,5 +68,5 @@
     "1.9.1": "Installs Ruby 1.9.1 and related packages",
     "symlinks": "Installs symlinks for the default Ruby version"
   },
-  "version": "0.9.0"
+  "version": "0.9.1"
 }
