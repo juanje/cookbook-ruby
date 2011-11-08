@@ -24,15 +24,23 @@ define :ruby_packages, :action => :install do
 
   packages = case node[:platform]
   when "ubuntu","debian"
+    if (node[:platform] == "ubuntu" && node[:platform_version].to_f < 10.04) ||
+       (node[:platform] == "debian" && node[:platform_version].to_f < 5.0)
+         extra_pkgs = [
+                       "rdoc#{rv}",
+                       "irb#{rv}",
+                       "libopenssl-ruby#{rv}"
+                      ]
+    else
+      extra_pkgs = ["libruby#{rv}"]
+    end
     [
       "ruby#{rv}",
       "ruby#{rv}-dev",
-      "rdoc#{rv}",
       "ri#{rv}",
-      "irb#{rv}",
-      "libopenssl-ruby#{rv}",
+       extra_pkgs,
      ("libshadow-ruby1.8" if rv == "1.8")
-    ].compact
+    ].compact.flatten
 
   when "gentoo"
     rv = rv.slice(0..2)
